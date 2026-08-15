@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Couple Heartwave Mode</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #070714;
+            --neon-pink: #ff007f;
+            --neon-blue: #00f0ff;
+            --neon-purple: #9d4edd;
+            --glass-bg: rgba(18, 16, 38, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Padauk', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(255, 0, 127, 0.25) 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(0, 240, 255, 0.25) 0%, transparent 45%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            color: #fff;
+        }
+
+        /* Ambient Floating Particles */
+        .bg-particles {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-particles i {
+            position: absolute;
+            color: rgba(255, 0, 127, 0.3);
+            animation: floatUp linear infinite;
+            bottom: -30px;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.8); opacity: 1; }
+            100% { transform: translateY(-105vh) scale(1.2); opacity: 0; }
+        }
+
+        /* Main Glass Card */
+        .container {
+            width: 100%;
+            max-width: 440px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 35px 22px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8),
+                        inset 0 0 20px rgba(255, 255, 255, 0.05);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            animation: popIn 0.8s ease-out;
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.9) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* Title */
+        .title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--neon-blue), #fff, var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        /* Heart Wave Container */
+        .signal-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            margin: 20px 0 25px;
+            padding: 0 5px;
+        }
+
+        /* Avatar Box */
+        .avatar-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            z-index: 2;
+        }
+
+        .avatar-img-wrap {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            padding: 3px;
+            background: var(--bg-dark);
+            position: relative;
+        }
+
+        .boy .avatar-img-wrap {
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+            animation: pulseBoy 3s infinite alternate;
+        }
+
+        .girl .avatar-img-wrap {
+            border: 2px solid var(--neon-pink);
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.6);
+            animation: pulseGirl 3s infinite alternate 1.5s;
+        }
+
+        @keyframes pulseBoy {
+            0% { box-shadow: 0 0 10px rgba(0, 240, 255, 0.4); }
+            100% { box-shadow: 0 0 22px rgba(0, 240, 255, 0.9); }
+        }
+
+        @keyframes pulseGirl {
+            0% { box-shadow: 0 0 10px rgba(255, 0, 127, 0.4); }
+            100% { box-shadow: 0 0 22px rgba(255, 0, 127, 0.9); }
+        }
+
+        .avatar-img-wrap img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .name-tag {
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .boy .name-tag { color: var(--neon-blue); }
+        .girl .name-tag { color: var(--neon-pink); }
+
+        /* SVG Heart Wave Animation */
+        .wave-box {
+            flex: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60px;
+            margin: 0 -10px;
+        }
+
+        .wave-svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .heartwave-line {
+            fill: none;
+            stroke: url(#wave-gradient);
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 400;
+            stroke-dashoffset: 400;
+            animation: runSignal 2.2s linear infinite;
+        }
+
+        @keyframes runSignal {
+            0% { stroke-dashoffset: 400; }
+            100% { stroke-dashoffset: 0; }
+        }
+
+        /* Center Heart Glowing Badge */
+        .center-heart {
+            position: absolute;
+            width: 38px;
+            height: 38px;
+            background: rgba(255, 0, 127, 0.2);
+            border: 1px solid var(--neon-pink);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 15px var(--neon-pink);
+            animation: heartBeat 1.2s ease-in-out infinite;
+            z-index: 3;
+        }
+
+        .center-heart i {
+            color: #fff;
+            font-size: 1.1rem;
+            filter: drop-shadow(0 0 5px var(--neon-pink));
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            20% { transform: scale(1.25); }
+            40% { transform: scale(1); }
+            60% { transform: scale(1.25); }
+        }
+
+        .sub-caption {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 25px;
+        }
+
+        /* Action Buttons */
+        .links-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            border-radius: 16px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn i {
+            font-size: 1.2rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-purple));
+            border: none;
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(90deg, var(--neon-purple), var(--neon-pink));
+            box-shadow: 0 0 25px rgba(255, 0, 127, 0.7);
+        }
+
+        /* Anniversary Badge */
+        .badge-date {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--neon-blue);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Floating Hearts -->
+    <div class="bg-particles" id="particles"></div>
+
+    <div class="container">
+        <!-- Main Title -->
+        <h1 class="title">စုံတွဲမုဒ် - Mg Mg & Ma Ma</h1>
+
+        <!-- Signal Wave Component -->
+        <div class="signal-wrap">
+            <!-- Boy Avatar -->
+            <div class="avatar-box boy">
+                <div class="avatar-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1531891570158-e71b35a485bc?w=300&auto=format&fit=crop" alt="Boy Profile">
+                </div>
+                <span class="name-tag">မောင်မောင်</span>
+            </div>
+
+            <!-- Animated SVG Heart Wave Line -->
+            <div class="wave-box">
+                <svg class="wave-svg" viewBox="0 0 200 60">
+                    <defs>
+                        <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#00f0ff"/>
+                            <stop offset="50%" stop-color="#ff007f"/>
+                            <stop offset="100%" stop-color="#ff007f"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- Heartbeat pulse path -->
+                    <path class="heartwave-line" d="M 0 30 H 40 L 50 15 L 60 45 L 75 5 L 90 55 L 100 30 H 110 L 120 18 L 130 42 L 140 30 H 200" />
+                </svg>
+
+                <!-- Center Beating Heart -->
+                <div class="center-heart">
+                    <i class="fa-solid fa-heart"></i>
+                </div>
+            </div>
+
+            <!-- Girl Avatar -->
+            <div class="avatar-box girl">
+                <div class="avatar-img-wrap">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&auto=format&fit=crop" alt="Girl Profile">
+                </div>
+                <span class="name-tag">မမ</span>
+            </div>
+        </div>
+
+        <p class="sub-caption">
+            <i class="fa-solid fa-heart-pulse" style="color: var(--neon-pink);"></i> အမြဲတမ်း နှလုံးသားချင်း ချိတ်ဆက်နေပါသည်
+        </p>
+
+        <!-- Links Stack -->
+        <div class="links-stack">
+            <a href="https://instagram.com/yourlink" target="_blank" class="btn btn-primary">
+                <div class="btn-left">
+                    <i class="fa-solid fa-camera-retro"></i>
+                    <span>မှတ်တမ်းပြခန်း (Gallery)</span>
+                </div>
+                <i class="fa-solid fa-angle-right"></i>
+            </a>
+
+            <a href="https://facebook.com/yourlink" target="_blank" class="btn">
+                <div class="btn-left">
+                    <i class="fa-brands fa-facebook" style="color: var(--neon-blue);"></i>
+                    <span>မောင်မောင့် အကောင့်</span>
+                </div>
+                <i class="fa-solid fa-angle-right"></i>
+            </a>
+
+            <a href="https://facebook.com/yourlink" target="_blank" class="btn">
+                <div class="btn-left">
+                    <i class="fa-brands fa-facebook" style="color: var(--neon-pink);"></i>
+                    <span>မမ၏ အကောင့်</span>
+                </div>
+                <i class="fa-solid fa-angle-right"></i>
+            </a>
+        </div>
+
+        <!-- Anniversary Badge -->
+        <div class="badge-date">
+            <i class="fa-solid fa-calendar-check"></i>
+            <span>နှစ်ဦးအတူ: 14 Feb 2023</span>
+        </div>
+    </div>
+
+    <!-- Floating Background Particles Script -->
+    <script>
+        const particleContainer = document.getElementById('particles');
+        const icons = ['fa-heart', 'fa-sparkles', 'fa-heart'];
+
+        for (let i = 0; i < 18; i++) {
+            const particle = document.createElement('i');
+            const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+            particle.className = `fa-solid ${randomIcon}`;
+
+            const size = Math.random() * 18 + 10;
+            const left = Math.random() * 100;
+            const duration = Math.random() * 8 + 8;
+            const delay = Math.random() * 10;
+
+            particle.style.fontSize = `${size}px`;
+            particle.style.left = `${left}%`;
+            particle.style.animationDuration = `${duration}s`;
+            particle.style.animationDelay = `${delay}s`;
+
+            particleContainer.appendChild(particle);
+        }
+    </script>
+</body>
+</html>
