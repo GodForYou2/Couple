@@ -40,7 +40,7 @@
             color: #fff;
         }
 
-        /* Ambient Floating Particles */
+        /* Ambient Floating Hearts (Increased Amount) */
         .bg-particles {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -50,14 +50,15 @@
 
         .bg-particles i {
             position: absolute;
-            color: rgba(255, 0, 127, 0.3);
+            color: rgba(255, 0, 127, 0.35);
             animation: floatUp linear infinite;
             bottom: -30px;
+            text-shadow: 0 0 8px rgba(255, 0, 127, 0.5);
         }
 
         @keyframes floatUp {
-            0% { transform: translateY(0) scale(0.8); opacity: 1; }
-            100% { transform: translateY(-105vh) scale(1.2); opacity: 0; }
+            0% { transform: translateY(0) scale(0.8) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-105vh) scale(1.5) rotate(360deg); opacity: 0; }
         }
 
         /* Main Glass Card */
@@ -104,51 +105,67 @@
             padding: 0 5px;
         }
 
-        /* Avatar Box */
+        /* ----- Avatar Square & Animated Light Border ----- */
         .avatar-box {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
             z-index: 2;
         }
 
-        .avatar-img-wrap {
-            width: 75px;
-            height: 75px;
-            border-radius: 50%;
-            padding: 3px;
-            background: var(--bg-dark);
+        .avatar-wrapper {
             position: relative;
+            width: 85px;  /* အနေတော် လေးထောင့် Size */
+            height: 85px;
+            border-radius: 20px; /* ထောင့်ဝိုင်း လေးထောင့်ပုံစံ */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: var(--bg-dark);
         }
 
-        .boy .avatar-img-wrap {
-            border: 2px solid var(--neon-blue);
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
-            animation: pulseBoy 3s infinite alternate;
+        /* Boy's Animated Light */
+        .boy .avatar-wrapper::before {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: conic-gradient(transparent, transparent, var(--neon-blue), #fff);
+            animation: rotateLight 2.5s linear infinite;
+        }
+        .boy .avatar-wrapper {
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
         }
 
-        .girl .avatar-img-wrap {
-            border: 2px solid var(--neon-pink);
-            box-shadow: 0 0 15px rgba(255, 0, 127, 0.6);
-            animation: pulseGirl 3s infinite alternate 1.5s;
+        /* Girl's Animated Light */
+        .girl .avatar-wrapper::before {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: conic-gradient(transparent, transparent, var(--neon-pink), #fff);
+            animation: rotateLight 2.5s linear infinite reverse; /* ပြောင်းပြန်လည်မည် */
+        }
+        .girl .avatar-wrapper {
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.4);
         }
 
-        @keyframes pulseBoy {
-            0% { box-shadow: 0 0 10px rgba(0, 240, 255, 0.4); }
-            100% { box-shadow: 0 0 22px rgba(0, 240, 255, 0.9); }
+        @keyframes rotateLight {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        @keyframes pulseGirl {
-            0% { box-shadow: 0 0 10px rgba(255, 0, 127, 0.4); }
-            100% { box-shadow: 0 0 22px rgba(255, 0, 127, 0.9); }
-        }
-
-        .avatar-img-wrap img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
+        /* Inner Image Styling */
+        .avatar-img {
+            position: absolute;
+            width: 77px; /* အပြင်ဘောင်အတွက် နေရာချန်ထားခြင်း (Border Thickness) */
+            height: 77px;
+            border-radius: 16px; /* ပုံ၏ ထောင့်ဝိုင်း */
             object-fit: cover;
+            z-index: 1;
+            background: var(--bg-dark);
         }
 
         .name-tag {
@@ -179,7 +196,7 @@
         .heartwave-line {
             fill: none;
             stroke: url(#wave-gradient);
-            stroke-width: 3;
+            stroke-width: 3.5;
             stroke-linecap: round;
             stroke-linejoin: round;
             stroke-dasharray: 400;
@@ -257,9 +274,7 @@
             gap: 12px;
         }
 
-        .btn i {
-            font-size: 1.2rem;
-        }
+        .btn i { font-size: 1.2rem; }
 
         .btn-primary {
             background: linear-gradient(90deg, var(--neon-pink), var(--neon-purple));
@@ -295,7 +310,7 @@
 </head>
 <body>
 
-    <!-- Background Floating Hearts -->
+    <!-- Background Floating Hearts (Increased Count) -->
     <div class="bg-particles" id="particles"></div>
 
     <div class="container">
@@ -304,10 +319,11 @@
 
         <!-- Signal Wave Component -->
         <div class="signal-wrap">
-            <!-- Boy Avatar -->
+            
+            <!-- Boy Square Avatar with Animated Glow -->
             <div class="avatar-box boy">
-                <div class="avatar-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1531891570158-e71b35a485bc?w=300&auto=format&fit=crop" alt="Boy Profile">
+                <div class="avatar-wrapper">
+                    <img src="https://images.unsplash.com/photo-1531891570158-e71b35a485bc?w=300&auto=format&fit=crop" alt="Boy Profile" class="avatar-img">
                 </div>
                 <span class="name-tag">မောင်မောင်</span>
             </div>
@@ -332,10 +348,10 @@
                 </div>
             </div>
 
-            <!-- Girl Avatar -->
+            <!-- Girl Square Avatar with Animated Glow -->
             <div class="avatar-box girl">
-                <div class="avatar-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&auto=format&fit=crop" alt="Girl Profile">
+                <div class="avatar-wrapper">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&auto=format&fit=crop" alt="Girl Profile" class="avatar-img">
                 </div>
                 <span class="name-tag">မမ</span>
             </div>
@@ -379,25 +395,29 @@
         </div>
     </div>
 
-    <!-- Floating Background Particles Script -->
+    <!-- Floating Background Particles Script (Increased) -->
     <script>
         const particleContainer = document.getElementById('particles');
-        const icons = ['fa-heart', 'fa-sparkles', 'fa-heart'];
+        const icons = ['fa-heart', 'fa-sparkles'];
 
-        for (let i = 0; i < 18; i++) {
+        // Heart အရေအတွက်ကို 45 ခုထိ တိုးထားပါတယ်
+        for (let i = 0; i < 45; i++) {
             const particle = document.createElement('i');
             const randomIcon = icons[Math.floor(Math.random() * icons.length)];
             particle.className = `fa-solid ${randomIcon}`;
 
-            const size = Math.random() * 18 + 10;
+            const size = Math.random() * 18 + 8; // Size အနည်းငယ် ပိုစုံအောင် ပြင်ထားသည်
             const left = Math.random() * 100;
-            const duration = Math.random() * 8 + 8;
-            const delay = Math.random() * 10;
+            const duration = Math.random() * 8 + 6;
+            const delay = Math.random() * 12;
 
             particle.style.fontSize = `${size}px`;
             particle.style.left = `${left}%`;
             particle.style.animationDuration = `${duration}s`;
             particle.style.animationDelay = `${delay}s`;
+            
+            // Random Opacity for depth
+            particle.style.opacity = Math.random() * 0.6 + 0.2; 
 
             particleContainer.appendChild(particle);
         }
