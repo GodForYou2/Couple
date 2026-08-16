@@ -40,7 +40,7 @@
             color: #fff;
         }
 
-        /* Ambient Floating Hearts (Increased Amount) */
+        /* Ambient Floating Hearts */
         .bg-particles {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -116,9 +116,9 @@
 
         .avatar-wrapper {
             position: relative;
-            width: 85px;  /* အနေတော် လေးထောင့် Size */
+            width: 85px;  
             height: 85px;
-            border-radius: 20px; /* ထောင့်ဝိုင်း လေးထောင့်ပုံစံ */
+            border-radius: 20px; 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -146,7 +146,7 @@
             width: 150px;
             height: 150px;
             background: conic-gradient(transparent, transparent, var(--neon-pink), #fff);
-            animation: rotateLight 2.5s linear infinite reverse; /* ပြောင်းပြန်လည်မည် */
+            animation: rotateLight 2.5s linear infinite reverse;
         }
         .girl .avatar-wrapper {
             box-shadow: 0 0 20px rgba(255, 0, 127, 0.4);
@@ -160,9 +160,9 @@
         /* Inner Image Styling */
         .avatar-img {
             position: absolute;
-            width: 77px; /* အပြင်ဘောင်အတွက် နေရာချန်ထားခြင်း (Border Thickness) */
+            width: 77px; 
             height: 77px;
-            border-radius: 16px; /* ပုံ၏ ထောင့်ဝိုင်း */
+            border-radius: 16px; 
             object-fit: cover;
             z-index: 1;
             background: var(--bg-dark);
@@ -310,7 +310,7 @@
 </head>
 <body>
 
-    <!-- Background Floating Hearts (Increased Count) -->
+    <!-- Background Floating Hearts -->
     <div class="bg-particles" id="particles"></div>
 
     <div class="container">
@@ -320,7 +320,7 @@
         <!-- Signal Wave Component -->
         <div class="signal-wrap">
             
-            <!-- Boy Square Avatar with Animated Glow -->
+            <!-- Boy Square Avatar -->
             <div class="avatar-box boy">
                 <div class="avatar-wrapper">
                     <img src="https://images.unsplash.com/photo-1531891570158-e71b35a485bc?w=300&auto=format&fit=crop" alt="Boy Profile" class="avatar-img">
@@ -338,17 +338,15 @@
                             <stop offset="100%" stop-color="#ff007f"/>
                         </linearGradient>
                     </defs>
-                    <!-- Heartbeat pulse path -->
                     <path class="heartwave-line" d="M 0 30 H 40 L 50 15 L 60 45 L 75 5 L 90 55 L 100 30 H 110 L 120 18 L 130 42 L 140 30 H 200" />
                 </svg>
 
-                <!-- Center Beating Heart -->
                 <div class="center-heart">
                     <i class="fa-solid fa-heart"></i>
                 </div>
             </div>
 
-            <!-- Girl Square Avatar with Animated Glow -->
+            <!-- Girl Square Avatar -->
             <div class="avatar-box girl">
                 <div class="avatar-wrapper">
                     <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&auto=format&fit=crop" alt="Girl Profile" class="avatar-img">
@@ -391,22 +389,23 @@
         <!-- Anniversary Badge -->
         <div class="badge-date">
             <i class="fa-solid fa-calendar-check"></i>
-            <span>Been Together : 5 years </span>
+            <!-- ID ပေးထားပါသည် -->
+            <span id="togetherTime">Calculating...</span>
         </div>
     </div>
 
-    <!-- Floating Background Particles Script (Increased) -->
+    <!-- Scripts -->
     <script>
+        // 1. Background Particles Script
         const particleContainer = document.getElementById('particles');
         const icons = ['fa-heart', 'fa-sparkles'];
 
-        // Heart အရေအတွက်ကို 45 ခုထိ တိုးထားပါတယ်
         for (let i = 0; i < 45; i++) {
             const particle = document.createElement('i');
             const randomIcon = icons[Math.floor(Math.random() * icons.length)];
             particle.className = `fa-solid ${randomIcon}`;
 
-            const size = Math.random() * 18 + 8; // Size အနည်းငယ် ပိုစုံအောင် ပြင်ထားသည်
+            const size = Math.random() * 18 + 8; 
             const left = Math.random() * 100;
             const duration = Math.random() * 8 + 6;
             const delay = Math.random() * 12;
@@ -416,11 +415,45 @@
             particle.style.animationDuration = `${duration}s`;
             particle.style.animationDelay = `${delay}s`;
             
-            // Random Opacity for depth
             particle.style.opacity = Math.random() * 0.6 + 0.2; 
 
             particleContainer.appendChild(particle);
         }
+
+        // 2. Calculate Together Time Script
+        function calculateTogetherTime() {
+            // ⚠️ ဒီနေရာမှာ ချစ်သူစဖြစ်တဲ့ရက် (Start Date) ကို 'YYYY-MM-DD' ပုံစံနဲ့ ပြင်ထည့်ပေးပါ။
+            // ဥပမာ - 2019 ခုနှစ် ဩဂုတ်လ 16 ရက် ဆိုပါက '2019-08-16' ဟု ရိုက်ပါ။
+            const startDate = new Date('2019-08-16'); 
+            const currentDate = new Date();
+
+            let years = currentDate.getFullYear() - startDate.getFullYear();
+            let months = currentDate.getMonth() - startDate.getMonth();
+            let days = currentDate.getDate() - startDate.getDate();
+
+            if (days < 0) {
+                months--;
+                // Get days of the previous month
+                const previousMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+                days += previousMonth.getDate();
+            }
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            // Text ပုံစံဖန်တီးခြင်း
+            let timeString = "Been Together : ";
+            if (years > 0) timeString += `${years} Yrs, `;
+            if (months > 0) timeString += `${months} Mos, `;
+            timeString += `${days} Days`;
+
+            // HTML ထဲသို့ ထည့်သွင်းပြသခြင်း
+            document.getElementById('togetherTime').innerText = timeString;
+        }
+
+        // function ကို အလုပ်လုပ်စေခြင်း
+        calculateTogetherTime();
     </script>
 </body>
 </html>
