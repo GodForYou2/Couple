@@ -340,7 +340,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            animation: burstAnim 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+            animation: burstAnim 2s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
         }
 
         .burst-heart-container i {
@@ -439,7 +439,7 @@
             <!-- Girl Square Avatar -->
             <div class="avatar-box girl">
                 <div class="avatar-wrapper">
-                    <img src="" alt="Girl Profile" class="avatar-img">
+                    <img src="https://i.ibb.co/gZ2HKcMJ/FB-IMG-1786260631593.jpg" alt="Girl Profile" class="avatar-img">
                 </div>
                 <span class="name-tag">Me</span>
             </div>
@@ -559,7 +559,7 @@
             if (e.target.closest('a')) return;
 
             // --- A) You & Me အသည်းပုံများ ---
-            const burstCount = 5; 
+            const burstCount = 15; 
             const words = ['YOU', 'ME'];
             const colors = ['var(--neon-pink)', 'var(--neon-blue)', '#ff6b6b']; 
 
@@ -591,7 +591,7 @@
 
                 setTimeout(() => {
                     burstHeart.remove();
-                }, 1000); 
+                }, 2000); 
             }
 
             // --- B) ရက်စွဲပါတဲ့ Comment Box လေး ---
