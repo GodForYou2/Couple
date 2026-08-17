@@ -332,8 +332,68 @@
             animation: shine 3s linear infinite;
         }
 
-        @keyframes shine {
-            to { background-position: 200% center; }
+        /* ----- Hearts Burst Animation Styles ----- */
+        .burst-heart-container {
+            position: absolute;
+            pointer-events: none;
+            z-index: 9998;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: burstAnim 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+        }
+
+        .burst-heart-container i {
+            font-size: 2.2rem;
+            filter: drop-shadow(0 0 8px rgba(0,0,0,0.5));
+        }
+
+        .burst-heart-container span {
+            position: absolute;
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            z-index: 1;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        @keyframes burstAnim {
+            0% { transform: translate(-50%, -50%) scale(0.3); opacity: 1; }
+            100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.2); opacity: 0; }
+        }
+
+        /* ----- NEW: Date Comment Box Burst Styles ----- */
+        .burst-date-box {
+            position: absolute;
+            pointer-events: none;
+            z-index: 9999;
+            background: rgba(20, 15, 35, 0.9);
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+            padding: 6px 14px;
+            border-radius: 12px 12px 12px 0; /* Chat bubble / Comment Box Look */
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            animation: dateBurstAnim 1.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+        }
+
+        .burst-date-box i {
+            color: var(--neon-pink);
+            font-size: 0.9rem;
+        }
+
+        @keyframes dateBurstAnim {
+            0% { transform: translate(-50%, -50%) scale(0.3); opacity: 1; }
+            20% { transform: translate(calc(-50% + var(--tx)*0.3), calc(-50% + var(--ty)*0.3)) scale(1.1); opacity: 1; }
+            80% { opacity: 0.9; }
+            100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1); opacity: 0; }
         }
 
     </style>
@@ -349,7 +409,7 @@
 
         <!-- Signal Wave Component -->
         <div class="signal-wrap">
-            
+
             <!-- Boy Square Avatar -->
             <div class="avatar-box boy">
                 <div class="avatar-wrapper">
@@ -379,7 +439,7 @@
             <!-- Girl Square Avatar -->
             <div class="avatar-box girl">
                 <div class="avatar-wrapper">
-                    <img src="https://i.ibb.co/gZ2HKcMJ/FB-IMG-1786260631593.jpg" alt="Girl Profile" class="avatar-img">
+                    <img src="" alt="Girl Profile" class="avatar-img">
                 </div>
                 <span class="name-tag">Me</span>
             </div>
@@ -449,22 +509,21 @@
             particle.style.left = `${left}%`;
             particle.style.animationDuration = `${duration}s`;
             particle.style.animationDelay = `${delay}s`;
-            
             particle.style.opacity = Math.random() * 0.6 + 0.2; 
 
             particleContainer.appendChild(particle);
         }
 
         // 2. Date Calculation Script
-        // ⚠️ ဒီနေရာမှာ ချစ်သူစဖြစ်တဲ့ရက် (Start Date) ကို 'YYYY-MM-DD' ပုံစံနဲ့ ပြင်ထည့်ပေးပါ။
         const startDateString = '2019-08-16'; 
         const startDate = new Date(startDateString);
+        let globalFormattedDate = ""; // Click လိုက်ရင် ပေါ်လာမယ့် စာသားအတွက် သိမ်းထားမယ့် နေရာ
 
         function setupDates() {
             // A) Set "Our Date" in the Button automatically
-            const dateOptions = { day: 'numeric', month: 'short', year: 'numeric' }; // Ex: 16 Aug 2019
-            const formattedDate = startDate.toLocaleDateString('en-GB', dateOptions);
-            document.getElementById('ourDateText').innerText = `Our Date : ${formattedDate}`;
+            const dateOptions = { day: 'numeric', month: 'short', year: 'numeric' }; 
+            globalFormattedDate = startDate.toLocaleDateString('en-GB', dateOptions);
+            document.getElementById('ourDateText').innerText = `Our Date : ${globalFormattedDate}`;
 
             // B) Calculate "Been Together" Time
             const currentDate = new Date();
@@ -492,6 +551,80 @@
 
         // Run the function
         setupDates();
+
+
+        // 3. Click/Touch Effect (Hearts & Date Box Burst)
+        window.addEventListener('pointerdown', function(e) {
+            // Button တွေကိုနှိပ်ရင် ဒီ effect မထွက်အောင် တားထားခြင်း
+            if (e.target.closest('a')) return;
+
+            // --- A) You & Me အသည်းပုံများ ---
+            const burstCount = 5; 
+            const words = ['YOU', 'ME'];
+            const colors = ['var(--neon-pink)', 'var(--neon-blue)', '#ff6b6b']; 
+
+            for (let i = 0; i < burstCount; i++) {
+                const burstHeart = document.createElement('div');
+                burstHeart.className = 'burst-heart-container';
+
+                const word = words[Math.floor(Math.random() * words.length)];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+
+                burstHeart.innerHTML = `
+                    <i class="fa-solid fa-heart" style="color: ${color};"></i>
+                    <span>${word}</span>
+                `;
+
+                document.body.appendChild(burstHeart);
+
+                burstHeart.style.left = `${e.pageX}px`;
+                burstHeart.style.top = `${e.pageY}px`;
+
+                const angle = Math.random() * Math.PI * 2; 
+                const velocity = 50 + Math.random() * 60; 
+                
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity - 40; 
+
+                burstHeart.style.setProperty('--tx', `${tx}px`);
+                burstHeart.style.setProperty('--ty', `${ty}px`);
+
+                setTimeout(() => {
+                    burstHeart.remove();
+                }, 1000); 
+            }
+
+            // --- B) ရက်စွဲပါတဲ့ Comment Box လေး ---
+            const dateBox = document.createElement('div');
+            dateBox.className = 'burst-date-box';
+            
+            // Calendar icon လေးနဲ့ ရက်စွဲကို ထည့်ပေးထားပါတယ်
+            dateBox.innerHTML = `
+                <i class="fa-solid fa-calendar-check"></i> 
+                <span>${globalFormattedDate}</span>
+            `;
+
+            document.body.appendChild(dateBox);
+
+            dateBox.style.left = `${e.pageX}px`;
+            dateBox.style.top = `${e.pageY}px`;
+
+            // ဖတ်လို့လွယ်အောင် အပေါ်ဘက်ကိုပဲ သီးသန့်လွင့်တက်သွားအောင် တွက်ချက်ခြင်း
+            const dateAngle = Math.PI + (Math.random() * Math.PI); // 180° to 360° (Upward arc)
+            const dateVelocity = 70 + Math.random() * 40; 
+
+            const dateTx = Math.cos(dateAngle) * dateVelocity;
+            const dateTy = Math.sin(dateAngle) * dateVelocity - 50; 
+
+            dateBox.style.setProperty('--tx', `${dateTx}px`);
+            dateBox.style.setProperty('--ty', `${dateTy}px`);
+
+            // ဖတ်ချိန်ရအောင် 1.5 seconds ကြာမှ ပျောက်သွားအောင်လုပ်ထားပါတယ်
+            setTimeout(() => {
+                dateBox.remove();
+            }, 1500); 
+        });
+
     </script>
 </body>
 </html>
